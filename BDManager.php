@@ -2,7 +2,7 @@
 
 /**
 * Otherwise Studios BDManager
-* by Juan Camilo Guarin Peñaranda
+* @autor Juan Camilo Guarin Peñaranda
 */
 
 class BDManager
@@ -20,14 +20,17 @@ class BDManager
 		$this->db=$db;
 	}
 
-	public function search($query, $encodeutf8=true){
+	/*
+	The query function lets you make MySQL queries in a normal way
+	@param $query Your query
+	@param $encodeutf8 Wether the result has to be encoded in UTF-8 or not
+	*/
+	public function query($query, $encodeutf8=false){
 
 		$mysqli = new mysqli($this->host,$this->user,$this->pass,$this->db);
 
 		$resultado = $mysqli->query($query);
 		$resultados = array();
-
-		//var_dump($resultado);
 
 		$todos=array();
 		while($row=$resultado->fetch_array()){
@@ -60,69 +63,31 @@ class BDManager
 
 		return $resultados;
 	}
-	
 
-	public function searchOmitted($busqueda,$columnasomitidas,$encodeutf8=true){
-
-		$mysqli = new mysqli($this->host,$this->user,$this->pass,$this->db);
-
-		$resultado = $mysqli->query($busqueda);
-
-		$resultados = array();
-
-		//$todos = $resultado->fetch_all();
-		$todos=array();
-		while($row=$resultado->fetch_array()){
-			$todos[]=$row;
-		}
-		
-
-		$num = $resultado->num_rows;
-
-		$fields=array();
-		$colsomit = array();
-
-		$i=0;
-		while ($property = $resultado->fetch_field()) {
-			if(in_array($property->name, $columnasomitidas)){
-				$colsomit[]=$i;
-			}
-			$fields[]= $property->name;
-			$i++;
-		}
-
-		for($i=0; $i<$num; $i++){
-			$resultado2=array();
-			for($j=0; $j<count($fields);$j++){
-				if(!in_array($j, $colsomit)){
-					if($encodeutf8){
-						$resultado2[$fields[$j]]=utf8_encode($todos[$i][$j]);
-					}else{
-						$resultado2[$fields[$j]]=($todos[$i][$j]);
-					}
-				}
-			}
-			$resultados[]=$resultado2;
-		}
-
-		$resultado->free();
-
-		$mysqli->close();
-
-		return $resultados;
-	}
-
+	/*
+	The insert function is just to be semantic
+	@param $query The query you want to make
+	*/
 	public function insert($query){
 		$bool = $this->update($query);
 		return $bool;
 	}
 
+	/*
+	The delete function is just to be semantic
+	@param $query The query you want to make
+	*/
 	public function delete($query){
 		$bool = $this->update($query);
 		return $bool;
 
 	}
 
+	/*
+	The update function makes an update to the database. Calling this function
+	you are able to make Inserts, deletes and updates
+	@param $query The query you want to make
+	*/
 	public function update($query){
 		$mysqli = new mysqli($this->host,$this->user,$this->pass,$this->db);
 
@@ -140,6 +105,11 @@ class BDManager
 		return $booleano;
 	}
 
+
+	/*
+	The escapeString function is just to be semantic
+	@param $string The string you want to escape
+	*/
 	public function escapeString($string){
 		$mysqli = new mysqli($this->host,$this->user,$this->pass,$this->db);
 		$string = $mysqli->real_escape_string($string);
