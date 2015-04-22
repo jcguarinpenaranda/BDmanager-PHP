@@ -8,17 +8,17 @@ It takes out some of the pain of playing with mysql in PHP, letting you write le
 
 First you have to include or require the class BDManager
 
-``php
+```php
 include 'path/to/BDManager.php';
-``
+```
 
 Now you have to set the host, username, password and database you want to use.
 
-``php
+```php
 include 'path/to/BDManager.php';
 
 $bd = new BDManager('localhost','root','','your-database-name');
-``
+```
 
 #Examples
 
