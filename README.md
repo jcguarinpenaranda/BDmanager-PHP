@@ -59,7 +59,35 @@ for($i=0; $i<count($users); $i++){
 }
 ```
 
-2) Insert a user, and verify if it was done
+2) If you want to connect your results as a Web Service, you could just simply do:
+
+```php
+$users = $bd->query('select * from users');
+
+header('Content-Type: application/json');
+echo json_encode($users);
+```
+
+you would get:
+
+```json
+[
+{
+"id":1,
+"name":"Johny",
+"email:"johny@company.com",
+"telephone":"+011354987"
+},
+{
+.... other results
+}
+]
+
+```
+
+
+
+3) Insert a user, and verify if it was done
 
 ```php
 
