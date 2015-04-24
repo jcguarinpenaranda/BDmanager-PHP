@@ -20,7 +20,60 @@ include 'path/to/BDManager.php';
 $bd = new BDManager('localhost','root','','your-database-name');
 ```
 
+And you are good to go!
+
 #Examples
+
+Given the following table called 'users' in MySql, we are going to make a SELECT, UPDATE, DELETE.
+
+<table>
+	<thead>
+		<th>id</th>
+		<th>name</th>
+		<th>email</th>
+		<th>telephone</th>
+	</thead>
+	<tbody>
+		<tr>
+			<td>1</td>
+			<td>Johny</td>
+			<td>johny@company.com</td>
+			<td>+011354987</td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>Katherine</td>
+			<td>katherine@company.com</td>
+			<td>+011324786</td>
+		</tr>
+	</tbody>
+</table>
+
+1) Select * from users, and then echo all their names
+
+```php
+$users = $bd->query('select * from users');
+
+for($i=0; $i<count($users); $i++){
+  echo $users[$i]['name'];
+}
+```
+
+2) Insert a user, and verify if it was done
+
+```php
+
+$bool = $bd->insert("insert into users (id,name,email,telephone) values (3,'Juan','jcguarinpenaranda@gmail.com','+57351684886')");
+
+if($bool){
+  //do something
+}else{
+  //throw error or whatever
+}
+
+```
+
+.... more examples coming soon!
 
 
 #License
